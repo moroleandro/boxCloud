@@ -1,9 +1,11 @@
 const express = require('express');
 const mongoose = require("mongoose");
 const path = require("path");
+const cors = require('cors');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+
 
 io.on('connection', socket =>{
     socket.on('connectRoom', box =>{
@@ -14,6 +16,8 @@ io.on('connection', socket =>{
 mongoose.connect('mongodb+srv://admin:moro2030@cluster0-1z2ys.mongodb.net/test?retryWrites=true',{
     useNewUrlParser: true
 });
+
+app.use(cors());
 
 app.use(( req ,res ,next) =>{
     req.io = io;
