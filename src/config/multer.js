@@ -1,22 +1,21 @@
-const multer = require('multer');
-const path = require('path');
-const crypto = require('crypto');
+const multer = require('multer')
+const path = require('path')
+const crypto = require('crypto')
 
 module.exports = {
-    dest: path.resolve(__dirname, '..','..', 'temp'),
+    dest: path.resolve(__dirname, '..', '..', 'temp'),
     storage: multer.diskStorage({
-        destination:(req,file,cb) => {
-            cb(null, path.resolve(__dirname, '..','..', 'temp'))
+        destination: (req, file, callback) => {
+            callback(null, path.resolve(__dirname, '..', '..', 'temp'))
         },
-        filename: (req,file,cb) => {
-           crypto.randomBytes(16, (err, hash) => {
-               if (err) cb(err);
-               
-               //colocando nome no arquivo
-               file.key = `${hash.toString('hex')}-${file.originalname}`;
-               
-               cb(null, file.key);
-           })
+        filename: (req, file, callback) => {
+            crypto.randomBytes(16, (err, hash) => {
+                if (err) callback(err)
+
+                file.key = `${hash.toString('hex')}-${file.originalname}`
+
+                callback(null, file.key)
+            })
         }
     })
 }
